@@ -1,0 +1,17 @@
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  display: none !important;
+  visibility: hidden;
+}
+
+
+
+/* Custom Checkbox Animation */
+input[type="checkbox"]:checked + div {
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+}

@@ -1,0 +1,197 @@
+<div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 space-y-4">
+  <h3 class="text-xl font-bold text-gray-900 tracking-tight">
+    Funding Progress
+  </h3>
+  <div class="p-6 space-y-6">
+    <!-- Progress Section -->
+    <div class="space-y-3">
+      <div class="flex justify-between items-center">
+        <span class="text-blue-600 font-medium text-sm">
+          {{ raisedFunds | number }} LE
+        </span>
+        <span class="text-gray-500 text-sm">
+          {{ fundingGoal | number }} LE Goal
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2 text-sm mb-2">
+        <span
+          class="w-2 h-2 rounded-full animate-pulse"
+          [ngClass]="{
+            'bg-green-500': status === 'active',
+            'bg-blue-500': status === 'funded'
+          }"
+        ></span>
+        <span class="capitalize text-gray-700 font-medium">
+          {{ status }}
+        </span>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="relative h-3 w-full rounded-full bg-gray-200 overflow-hidden">
+        <div
+          class="h-full rounded-full transition-all duration-500 ease-out"
+          [style.width.%]="progressPercentage"
+          [ngClass]="{
+            'bg-green-500': status === 'active',
+            'bg-blue-500': status === 'funded'
+          }"
+        ></div>
+      </div>
+
+      <!-- Progress Details -->
+      <div class="flex justify-between text-gray-600 text-sm">
+        <span>{{ progressPercentage.toFixed(1) }}% Funded</span>
+        <div class="flex items-center gap-1">
+          <mat-icon class="text-base scale-90">groups</mat-icon>
+          <span>{{ numOfInvestors | number }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Investment Input -->
+    <div class="space-y-4">
+      <label class="block text-sm font-medium text-gray-700">
+        Investment Amount (LE)
+      </label>
+      <div class="relative">
+        <mat-icon
+          class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 scale-90"
+        >
+          currency_pound
+        </mat-icon>
+        <input
+          type="number"
+          min="10000"
+          step="100"
+          [(ngModel)]="investmentAmount"
+          (ngModelChange)="onInvestmentChange()"
+          class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-300/50 focus:border-blue-400 transition-all"
+          placeholder="Enter amount"
+        />
+      </div>
+      <div class="grid grid-cols-1 gap-2">
+        <button
+          class="text-sm font-medium p-2 border border-gray-200 rounded-lg hover:border-blue-400 hover:text-blue-600 transition-colors"
+          (click)="setInvestmentAmount(fundingGoal - raisedFunds)"
+        >
+          Maximum: {{ fundingGoal - raisedFunds | number }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Fee Summary -->
+    <div class="space-y-3">
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+        <span class="text-gray-600 text-sm">Platform Fee (5%)</span>
+        <span class="font-semibold text-gray-900">
+          {{ calculatePlatformFee() | number : "1.2-2" }} LE
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+        <span class="text-gray-600 text-sm">Processing Fee (3% + 0.2 LE)</span>
+        <span class="font-semibold text-gray-900">
+          {{ calculateProcessingFee() | number : "1.2-2" }} LE
+        </span>
+      </div>
+
+      <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+        <span class="text-gray-600 text-sm">Total Fees</span>
+        <span class="font-semibold text-gray-900">
+          {{ calculateTotalFees() | number : "1.2-2" }} LE
+        </span>
+      </div>
+
+      <div
+        class="flex justify-between items-center p-3 bg-blue-50 border border-blue-100 rounded-lg"
+      >
+        <span class="font-medium text-gray-900">Net Payout to Project</span>
+        <span class="font-bold text-green-600">
+          {{ calculateNetPayout() | number : "1.2-2" }} LE
+        </span>
+      </div>
+
+      <div
+        class="flex justify-between items-center p-3 bg-blue-50 border border-blue-100 rounded-lg"
+      >
+        <span class="font-medium text-gray-900">Your Equity Share</span>
+        <span class="font-semibold text-blue-600">
+          {{ calculateEquityShare() }}%
+        </span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="space-y-3">
+      <button
+        type="button"
+        (click)="onInvest()"
+        [disabled]="!canInvest || isLoading"
+        class="w-full flex items-center justify-center gap-2 text-white bg-gray-900 hover:bg-gray-800 py-3 rounded-lg font-medium transition-all disabled:bg-gray-300 disabled:cursor-not-allowed"
+      >
+        <span *ngIf="!isLoading">Invest Now</span>
+        <span *ngIf="isLoading" class="flex items-center gap-2">
+          <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24">
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+              fill="none"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          Processing...
+        </span>
+      </button>
+
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="onContact()"
+        class="w-full py-3 text-gray-600 hover:text-blue-600 rounded-lg border-gray-200 hover:border-blue-400 transition-colors"
+      >
+        <mat-icon class="scale-90 mr-1">chat</mat-icon>
+        Contact Business
+      </button>
+    </div>
+
+    <!-- Metrics -->
+    <div class="pt-6 mt-4 border-t border-gray-100">
+      <h3
+        class="text-sm font-medium text-gray-600 uppercase tracking-wide mb-4"
+      >
+        Project Metrics
+      </h3>
+      <div class="grid grid-cols-2 gap-4 text-sm">
+        <div class="flex items-center gap-3">
+          <mat-icon class="text-green-500 scale-90"
+            >account_balance_wallet</mat-icon
+          >
+          <div>
+            <p class="text-gray-500">Maximun</p>
+            <p class="font-medium text-gray-900">
+              {{ fundingGoal - raisedFunds | number }} LE
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <mat-icon class="text-purple-500 scale-90">groups</mat-icon>
+          <div>
+            <p class="text-gray-500">Investors</p>
+            <p class="font-medium text-gray-900">
+              {{ numOfInvestors | number }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

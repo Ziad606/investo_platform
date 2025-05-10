@@ -1,0 +1,149 @@
+<!-- Block Message Card -->
+<div
+  *ngIf="blockMessage"
+  class="fixed inset-0 z-50 bg-white/95 backdrop-blur-sm"
+>
+  <div
+    class="min-h-screen flex items-center justify-center p-6 animate-fade-in"
+  >
+    <div class="max-w-md w-full space-y-6 text-center">
+      <!-- Icon Container -->
+      <div class="flex justify-center animate-pulse">
+        <div class="p-5 bg-red-100 rounded-full shadow-lg">
+          <mat-icon class="text-red-600 text-5xl">warning</mat-icon>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-3xl font-bold text-gray-900 tracking-tight">
+          {{ blockMessage }}
+        </h3>
+        <p class="text-gray-600 text-lg leading-relaxed"></p>
+      </div>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="router.navigate(navigationPath)"
+        class="w-full max-w-xs mx-auto py-4 text-lg font-medium hover:scale-[1.02] active:scale-95 transition-transform shadow-lg hover:shadow-xl"
+      >
+        {{ navigationButtonText }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!blockMessage" class="w-full bg-white min-h-screen pt-15">
+  <!-- Image Section -->
+  <div class="w-full max-w-5xl mx-auto px-4 pt-8">
+    <div
+      class="relative group overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300"
+      (click)="openImageModal(projectImageUrl)"
+    >
+      <img
+        title="Project Image"
+        [src]="projectImageUrl"
+        [alt]="title"
+        class="w-full h-full max-h-100 md:h-96 object-cover object-center transition-transform duration-500 group-hover:scale-105"
+      />
+      <!-- Gradient Overlay -->
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/20 via-black/10 to-transparent"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Content Section -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Main Content -->
+      <div class="lg:col-span-8 space-y-8">
+        <!-- Header Section -->
+        <div class="space-y-6">
+          <a
+            routerLink="/projects"
+            class="inline-flex items-center text-gray-500 hover:text-gray-900 transition-colors group mb-2"
+          >
+            <mat-icon
+              class="mr-2 group-hover:-translate-x-1 transition-transform"
+              >arrow_back_ios</mat-icon
+            >
+            <span class="font-medium text-sm tracking-wide"
+              >Browse All Projects</span
+            >
+          </a>
+
+          <div class="space-y-4">
+            <div class="flex items-center gap-3 text-sm">
+              <span
+                class="font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full"
+                >{{ categoryName }}</span
+              >
+              <span class="flex items-center gap-2 text-gray-500">
+                <mat-icon class="text-base scale-90">location_on</mat-icon>
+                {{ location }}
+              </span>
+            </div>
+            <h1
+              class="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight leading-tight"
+            >
+              {{ title }}
+            </h1>
+            <p class="text-lg text-gray-600 font-medium leading-relaxed">
+              {{ subtitle }}
+            </p>
+          </div>
+
+          <!-- Owner Info -->
+          <div
+            *ngIf="errorMessage"
+            class="mt-2 p-2 text-red-600 text-sm bg-red-50 rounded-lg"
+          >
+            <mat-icon class="!w-4 !h-4 align-middle">error</mat-icon>
+            <span class="ml-1">{{ errorMessage }}</span>
+          </div>
+
+          <!-- Existing owner info -->
+          <div class="flex items-center gap-3 pt-4 group">
+            <div>
+              <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                Project Creator
+              </p>
+              <p
+                class="font-medium text-gray-900 hover:text-blue-600 transition-colors cursor-pointer"
+                (click)="navigateToOwnerProfile()"
+              >
+                {{ ownerName }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs Section -->
+        <app-project-tabs
+          [projectData]="project"
+          [activeTab]="activeTab"
+          (tabChange)="onTabSelected($event)"
+          class="pt-8"
+        >
+        </app-project-tabs>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="lg:col-span-4">
+        <div class="sticky top-8 space-y-6">
+          <!-- Funding Card -->
+          <div class="space-y-4">
+            <!-- Investment Info -->
+            <app-investment-sidebar
+              [fundingGoal]="fundingGoal"
+              [raisedFunds]="raisedFunds"
+              [numOfInvestors]="numOfInvestors"
+              class="pt-4"
+            ></app-investment-sidebar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

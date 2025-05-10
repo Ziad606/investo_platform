@@ -1,0 +1,16 @@
+<!-- Error Message -->
+<div *ngIf="error" class="text-red-600 text-center py-6">
+  {{ error }}
+</div>
+
+<!-- Offers List -->
+<app-offer-approval-card
+  *ngIf="!isLoading && offers.length"
+  [offers]="offers">
+</app-offer-approval-card>
+
+<!-- No Offers -->
+<div *ngIf="!isLoading && !offers.length" class="text-center text-gray-500 py-6">
+  <mat-icon class="text-4xl text-gray-400 mb-2">search_off</mat-icon>
+  <p>No offers found.</p>
+</div>

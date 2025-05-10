@@ -1,0 +1,54 @@
+<!-- project-approval-card.component.html -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <!-- Error -->
+  <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+    <p class="text-red-800">{{ error }}</p>
+    <button (click)="reload()" 
+            class="mt-2 px-4 py-2 border rounded text-sm hover:bg-gray-50">
+      Retry
+    </button>
+  </div>
+
+  <!-- Filter Controls -->
+  <div class="mb-6 flex items-center justify-between">
+    <h2 class="text-2xl font-bold text-gray-900">Project Approvals</h2>
+    <select [(ngModel)]="filterStatus" 
+            (change)="onFilterChange()"
+            title="Filter projects by status"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+      <option value="Pending">Pending Approval</option>
+      <option value="Accepted">Approved Projects</option>
+      <option value="Rejected">Rejected Projects</option>
+    </select>
+  </div>
+
+  <!-- Loading & Empty States -->
+  <div *ngIf="isLoading" class="py-12 text-center text-gray-500">
+    <mat-icon class="animate-spin">refresh</mat-icon>
+    <p class="mt-2">Loading projects...</p>
+  </div>
+
+  <div *ngIf="!isLoading && noResults" class="text-center py-8">
+    <mat-icon class="text-gray-400 text-4xl mb-2">search_off</mat-icon>
+    <p class="text-gray-500">No {{ filterStatus.toLowerCase() }} projects found</p>
+  </div>
+
+  <div *ngIf="!isLoading && projects.length > 0" class="space-y-4">
+    <div *ngFor="let p of projects"
+         class="bg-white border rounded-lg shadow-sm transition-all cursor-pointer hover:border-blue-200"
+         (click)="openDetailsModal(p)">
+      <div class="flex items-center justify-between p-4">
+        <div>
+          <h3 class="text-base font-semibold text-gray-900 truncate">{{ p.projectTitle }}</h3>
+          <p class="text-sm text-gray-500">{{ p.subtitle }}</p>
+        </div>
+        <mat-icon>chevron_right</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Details Modal -->
+  <ng-template #detailsModal>
+    <app-project-details-dialog></app-project-details-dialog>
+  </ng-template>
+</div>
