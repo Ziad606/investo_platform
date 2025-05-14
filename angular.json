@@ -67,6 +67,39 @@
           },
           "defaultConfiguration": "production"
         },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/investo_platform/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "investo_platform:build:development",
+              "serverTarget": "investo_platform:server:development"
+            },
+            "production": {
+              "browserTarget": "investo_platform:build:production",
+              "serverTarget": "investo_platform:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
         "prerender": {
           "builder": "@angular-devkit/build-angular:prerender",
           "options": {
