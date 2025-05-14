@@ -69,3 +69,33 @@ export const ssrRoutes = [
   /^\/ProjectDetails\/\d+(?!\/\w+$)/, // ProjectDetails with invalid tab
   /^\/profile\/\d+(?!$)/, // Profile with invalid ID
 ];
+
+// Define the parameters for dynamic routes
+export const prerenderParams = {
+  'profile/:id': [{ id: '1' }, { id: '2' }, { id: '3' }],
+  'ProjectDetails/:id': [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
+    { id: '4' },
+    { id: '5' },
+  ],
+  'ProjectDetails/:id/:tab': (() => {
+    const tabs = [
+      'overview',
+      'business-info',
+      'discussion',
+      'team-members',
+      'updates',
+      'documents',
+      'offer',
+    ];
+    const params = [];
+    for (let id = 1; id <= 5; id++) {
+      for (const tab of tabs) {
+        params.push({ id: id.toString(), tab });
+      }
+    }
+    return params;
+  })(),
+};

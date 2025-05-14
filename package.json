@@ -1,15 +1,15 @@
 {
-  "name": "investgo_platform",
+  "name": "investo_platform",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && ng run investgo_platform:server",
+    "build": "ng build && ng run investo_platform:server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr": "node dist/investgo_platform/server/server.mjs",
-    "dev:ssr": "ng run investgo_platform:serve-ssr",
-    "prerender": "ng run investgo_platform:prerender --config prerender.config.ts"
+    "serve:ssr": "node dist/investo_platform/server/server.mjs",
+    "dev:ssr": "ng run investo_platform:serve-ssr",
+    "prerender": "ng run investo_platform:prerender:production"
   },
   "private": true,
   "dependencies": {

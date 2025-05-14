@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "investgo_platform": {
+    "investo_platform": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,11 +13,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/investgo_platform/",
+            "outputPath": "dist/investo_platform/",
             "index": "src/index1.html",
-            "prerender": {
-              "discoverRoutes": false
-            },
+            "prerender": true,
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
@@ -69,14 +67,42 @@
           },
           "defaultConfiguration": "production"
         },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "routes": [
+              "/",
+              "/Home",
+              "/LandingPage",
+              "/auth",
+              "/error",
+              "/success",
+              "/UpgradeRole",
+              "/UpgradeRole/Investor",
+              "/UpgradeRole/BusinessOwner",
+              "/UserProfile"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "investo_platform:build:production",
+              "serverTarget": "investo_platform:server:production"
+            },
+            "development": {
+              "browserTarget": "investo_platform:build:development",
+              "serverTarget": "investo_platform:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "investgo_platform:build:production"
+              "buildTarget": "investo_platform:build:production"
             },
             "development": {
-              "buildTarget": "investgo_platform:build:development"
+              "buildTarget": "investo_platform:build:development"
             }
           },
           "defaultConfiguration": "development"
