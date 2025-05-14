@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && ng run investo_platform:server",
+    "build": "ng build && ng run investo_platform:server:production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr": "node dist/investo_platform/server/server.mjs",
