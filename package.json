@@ -9,7 +9,7 @@
     "test": "ng test",
     "serve:ssr": "node dist/investgo_platform/server/server.mjs",
     "dev:ssr": "ng run investgo_platform:serve-ssr",
-    "prerender": "ng run investgo_platform:prerender"
+    "prerender": "ng run investgo_platform:prerender --config prerender.config.ts"
   },
   "private": true,
   "dependencies": {

@@ -7,7 +7,7 @@
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "buildCommand": "npm run build",
+        "buildCommand": "npm run build && npm run prerender",
         "outputDirectory": "dist/investgo_platform/browser"
       }
     },
@@ -20,6 +20,30 @@
     {
       "src": "/api/(.*)",
       "dest": "/api/$1"
+    },
+    {
+      "src": "/ProjectDetails/(.*)",
+      "dest": "/dist/investgo_platform/server/server.mjs"
+    },
+    {
+      "src": "/profile/(.*)",
+      "dest": "/dist/investgo_platform/server/server.mjs"
+    },
+    {
+      "src": "/InvestorDashboard(.*)",
+      "dest": "/dist/investgo_platform/server/server.mjs"
+    },
+    {
+      "src": "/BusinessDashboard(.*)",
+      "dest": "/dist/investgo_platform/server/server.mjs"
+    },
+    {
+      "src": "/AdminDashboard(.*)",
+      "dest": "/dist/investgo_platform/server/server.mjs"
+    },
+    {
+      "src": "/BusinessCreation(.*)",
+      "dest": "/dist/investgo_platform/server/server.mjs"
     },
     {
       "src": "/(.*)",
