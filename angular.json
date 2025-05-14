@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Frontend": {
+    "investgo_platform": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,8 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/frontend",
-            "index": "src/index.html",
+            "outputPath": "dist/investgo_platform/",
+            "index": "src/index1.html",
             "prerender": {
               "discoverRoutes": false
             },
@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Frontend:build:production"
+              "buildTarget": "investgo_platform:build:production"
             },
             "development": {
-              "buildTarget": "Frontend:build:development"
+              "buildTarget": "investgo_platform:build:development"
             }
           },
           "defaultConfiguration": "development"
